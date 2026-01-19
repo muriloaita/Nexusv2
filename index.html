@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Nexus Focus" />
+    
+    <link rel="preconnect" href="https://esm.sh" />
+    <link rel="preconnect" href="https://rrzcoxrmqcfcykcflinj.supabase.co" />
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/8943/8943377.png" />
+    <link rel="manifest" href="manifest.json" />
+    
+    <title>Nexus Focus</title>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <style>
+      :root {
+        --ios-blue: #007AFF;
+        --ios-gray: #1C1C1E;
+        --blur-intensity: 20px;
+      }
+
+      @media (max-width: 768px) {
+        :root { --blur-intensity: 8px; }
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background-color: #000000;
+        color: #F5F5F7;
+        margin: 0;
+        padding: 0;
+        overscroll-behavior: none; 
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .app-viewport {
+        height: 100dvh;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .scroll-container {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+        overscroll-behavior-y: contain;
+      }
+
+      .ios-glass {
+        background: rgba(20, 20, 20, 0.7);
+        backdrop-filter: blur(var(--blur-intensity));
+        -webkit-backdrop-filter: blur(var(--blur-intensity));
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .kanban-snap {
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+      }
+      .kanban-column {
+        scroll-snap-align: center;
+      }
+
+      #initial-loader {
+        position: fixed;
+        inset: 0;
+        background: #000;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: opacity 0.4s ease;
+      }
+
+      .nexus-pulse {
+        width: 70px;
+        height: 70px;
+        background: #fff;
+        border-radius: 20px;
+        animation: pulse-ring 2s infinite ease-in-out;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      @keyframes pulse-ring {
+        0% { transform: scale(0.95); opacity: 0.8; }
+        50% { transform: scale(1); opacity: 1; box-shadow: 0 0 30px rgba(99,102,241,0.4); }
+        100% { transform: scale(0.95); opacity: 0.8; }
+      }
+
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .active-scale:active { transform: scale(0.94); transition: transform 0.1s ease; }
+      .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+      .pt-safe { padding-top: env(safe-area-inset-top); }
+
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255,0.1);
+        border-radius: 10px;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-markdown": "https://esm.sh/react-markdown@^10.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.45.1",
+    "recharts": "https://esm.sh/recharts@^3.6.0"
+  }
+}
+</script>
+</head>
+  <body class="bg-black text-slate-200 antialiased">
+    <div id="initial-loader">
+        <div class="nexus-pulse">
+            <svg width="35" height="35" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M90 30 C 70 30, 50 40, 40 60 C 20 70, 10 100, 20 130 C 30 160, 60 170, 90 170" stroke="#6366f1" stroke-width="12" stroke-linecap="round" fill="none"/>
+                <path d="M110 30 C 130 30, 150 40, 160 60 C 180 70, 190 100, 180 130 C 170 160, 140 170, 110 170" stroke="#3b82f6" stroke-width="12" stroke-linecap="round" fill="none"/>
+            </svg>
+        </div>
+        <p style="margin-top: 20px; font-size: 9px; font-weight: 800; color: #555; letter-spacing: 0.4em; text-transform: uppercase;">Nexus Core</p>
+    </div>
+
+    <div id="root" class="app-viewport"></div>
+    
+    <script>
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('initial-loader');
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.remove(), 400);
+            }
+        });
+    </script>
+  </body>
+</html>

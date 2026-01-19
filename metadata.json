@@ -1,0 +1,9 @@
+{
+  "name": "Copy of Nexus Focus CRM",
+  "description": "Um assistente pessoal inteligente que atua como um CRM organizado por nichos, focado em produtividade e alta performance.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}
